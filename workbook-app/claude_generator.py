@@ -186,14 +186,14 @@ def generate_workbook_content(
     """
     client = anthropic.Anthropic(api_key=api_key)
 
-          grammar_str = '포함' if include_grammar else '제외'
-        essay_str = '포함' if include_essay else '제외'
+    grammar_str = '포함' if include_grammar else '제외'
+    essay_str = '포함' if include_essay else '제외'
     prompt = WORKBOOK_PROMPT.format(
         passage=passage,
         vocab_count=vocab_count,
         tf_count=tf_count,
-                    grammar_str=grammar_str,
-                    essay_str=essay_str,
+        grammar_str=grammar_str,
+        essay_str=essay_str,
     )
 
     message = client.messages.create(
