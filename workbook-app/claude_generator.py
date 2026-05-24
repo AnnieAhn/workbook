@@ -198,7 +198,7 @@ def generate_workbook_content(
 
     message = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=8000,
+        max_tokens=16000,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": prompt}],
     )
@@ -210,4 +210,9 @@ def generate_workbook_content(
         lines = raw.split("\n")
         raw = "\n".join(lines[1:-1] if lines[-1] == "```" else lines[1:])
 
+    raw = raw.strip()
+    if not raw.endswith("}"):
+        last = raw.rfind("}")
+        if last != -1:
+            raw = raw[:last + 1]
     return json.loads(raw)
