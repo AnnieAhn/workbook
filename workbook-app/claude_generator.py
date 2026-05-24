@@ -16,8 +16,8 @@ WORKBOOK_PROMPT = """다음 영어 지문을 분석하고 워크북에 필요한
 [요구사항]
 - 핵심 어휘: {vocab_count}개 (지문 등장 순서)
 - T/F 문제: {tf_count}개
-- 어법 판단: {'포함' if include_grammar else '제외'}
-- 서술형: {'포함' if include_essay else '제외'}
+- 어법 판단: {grammar_str}
+- 서술형: {essay_str}
 
 아래 JSON 구조를 정확히 따르세요:
 
@@ -186,12 +186,14 @@ def generate_workbook_content(
     """
     client = anthropic.Anthropic(api_key=api_key)
 
+          grammar_str = '포함' if include_grammar else '제외'
+        essay_str = '포함' if include_essay else '제외'
     prompt = WORKBOOK_PROMPT.format(
         passage=passage,
         vocab_count=vocab_count,
         tf_count=tf_count,
-        include_grammar=include_grammar,
-        include_essay=include_essay,
+                    grammar_str=grammar_str,
+                    essay_str=essay_str,
     )
 
     message = client.messages.create(
